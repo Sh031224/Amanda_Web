@@ -3,6 +3,7 @@ import "./Login.scss";
 import logo from "../../assets/images/logo.svg";
 import bubble from "../../assets/images/bubble.png";
 import loginText from "../../assets/images/login-text.png";
+import Register from "../Register";
 
 interface LoginProps {
   id: string;
@@ -11,6 +12,9 @@ interface LoginProps {
   setPw: React.Dispatch<React.SetStateAction<string>>;
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
   tryLoginCallback: () => Promise<void>;
+  name: string;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  tryRegisterCallback: () => Promise<void>;
 }
 
 const Login = ({
@@ -19,7 +23,10 @@ const Login = ({
   pw,
   setPw,
   setIsRegister,
-  tryLoginCallback
+  tryLoginCallback,
+  name,
+  setName,
+  tryRegisterCallback
 }: LoginProps) => {
   return (
     <div className="login">
@@ -43,7 +50,7 @@ const Login = ({
         </div>
         <div className="login-box-right">
           <div className="login-box-right-content">
-            <div className="login-box-right-content-title">{"시작하기"}</div>
+            <div className="login-box-right-content-title">{"Login"}</div>
             <div className="login-box-right-content-form">
               <span>{"ID"}</span>
               <input
@@ -53,6 +60,7 @@ const Login = ({
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setId(e.target.value)
                 }
+                autoFocus
               />
               <div className="line" />
             </div>
@@ -63,6 +71,11 @@ const Login = ({
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setPw(e.target.value)
                 }
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  if (e.keyCode === 13) {
+                    tryLoginCallback();
+                  }
+                }}
                 type="password"
                 placeholder="Enter your password"
               />
@@ -75,10 +88,22 @@ const Login = ({
               로그인
             </div>
             <div className="login-box-right-content-register">
-              <span>{"계정이 없으신가요?"}</span>
+              <span onClick={() => setIsRegister(true)}>
+                {"계정이 없으신가요?"}
+              </span>
             </div>
           </div>
         </div>
+        <Register
+          setIsRegister={setIsRegister}
+          id={id}
+          setId={setId}
+          pw={pw}
+          setPw={setPw}
+          name={name}
+          setName={setName}
+          tryRegisterCallback={tryRegisterCallback}
+        />
       </div>
     </div>
   );

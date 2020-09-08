@@ -10,7 +10,24 @@ class User {
         id,
         pw
       };
+      const { data } = await axios.post(url, body);
 
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+
+  async Register(id: string, pw: string, name: string) {
+    try {
+      const url = `${SERVER}/signup`;
+
+      const body = {
+        id,
+        pw,
+        name,
+        description: null
+      };
       const { data } = await axios.post(url, body);
 
       return data;
