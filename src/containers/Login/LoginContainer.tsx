@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { inject, observer } from "mobx-react";
 import Login from "../../components/Login";
 import UserStore from "../../stores/UserStore";
-import Register from "../../components/Register";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -15,12 +14,13 @@ interface StoreType {
 }
 
 const LoginContainer = ({ store }: LoginContainerProps) => {
-  const { tryLogin } = store!.UserStore;
+  const { tryLogin, tryRegister } = store!.UserStore;
 
   const history = useHistory();
 
   const [id, setId] = useState<string>("");
   const [pw, setPw] = useState<string>("");
+  const [name, setName] = useState<string>("");
 
   const [isRegister, setIsRegister] = useState<boolean>(false);
 
@@ -35,9 +35,35 @@ const LoginContainer = ({ store }: LoginContainerProps) => {
       });
   }, [id, pw]);
 
+  const tryRegisterCallback = useCallback(async () => {
+    if (!id || !pw || !name) {
+      toast.warning("빈칸을 입력해주세요.");
+    } else {
+      tryRegister(id, pw, name)
+        .then((res) => {
+          toast.success("가입 되었습니다.");
+          history.push("/");
+        })
+        .catch((err) => {
+          toast.error("가입에 실패하였습니다.");
+        });
+    }
+  }, [id, pw, name]);
+
+  useEffect(() => {
+    if (isRegister) {
+      (document.getElementById("register") as HTMLFormElement).style.right =
+        "0";
+    } else {
+      (document.getElementById("register") as HTMLFormElement).style.right =
+        "-800px";
+    }
+  }, [isRegister]);
+
   useEffect(() => {
     setId("");
     setPw("");
+    setName("");
   }, [isRegister]);
 
   return (
@@ -49,8 +75,10 @@ const LoginContainer = ({ store }: LoginContainerProps) => {
         setPw={setPw}
         setIsRegister={setIsRegister}
         tryLoginCallback={tryLoginCallback}
+        name={name}
+        setName={setName}
+        tryRegisterCallback={tryRegisterCallback}
       />
-      {/* <Register /> */}
     </>
   );
 };

@@ -2,6 +2,7 @@ import { observable, action } from "mobx";
 import { autobind } from "core-decorators";
 import UserApi from "../../assets/api/User";
 import { LoginResponse } from "../../util/types/UserStoreType";
+import { sha256 } from "js-sha256";
 
 @autobind
 class UserStore {
@@ -14,10 +15,11 @@ class UserStore {
   @action
   tryLogin = async (id: string, pw: string): Promise<LoginResponse> => {
     try {
-      const response: LoginResponse = await UserApi.Login(id, pw);
+      const response: LoginResponse = await UserApi.Login(sha256(id), pw);
 
       if (response.status === 200) {
         this.login = true;
+        localStorage.setItem("token", response.accessToken);
       }
 
       return new Promise(
@@ -33,26 +35,30 @@ class UserStore {
     }
   };
 
-  // @action
-  // getPostCommentCount = async (
-  //   idx: number
-  // ): Promise<GetPostCommentCountResponse> => {
-  //   try {
-  //     const response: GetPostCommentCountResponse = await Post.GetPostCommentCount(
-  //       idx
-  //     );
+  @action
+  tryRegister = async (
+    id: string,
+    pw: string,
+    name: string
+  ): Promise<ResponseType> => {
+    try {
+      const response: ResponseType = await UserApi.Register(
+        sha256(id),
+        pw,
+        name
+      );
 
-  //     return new Promise(
-  //       (resolve: (response: GetPostCommentCountResponse) => void, reject) => {
-  //         resolve(response);
-  //       }
-  //     );
-  //   } catch (error) {
-  //     return new Promise((resolve, reject: (error: Error) => void) => {
-  //       reject(error);
-  //     });
-  //   }
-  // };
+      return new Promise(
+        (resolve: (response: ResponseType) => void, reject) => {
+          resolve(response);
+        }
+      );
+    } catch (error) {
+      return new Promise((resolve, reject: (error: Error) => void) => {
+        reject(error);
+      });
+    }
+  };
 }
 
 export default UserStore;
