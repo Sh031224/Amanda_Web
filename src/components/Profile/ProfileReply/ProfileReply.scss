@@ -1,12 +1,8 @@
-.profile-comment {
-  margin-top: 150px;
+.profile-reply {
+  padding-left: 50px;
   display: flex;
   width: 100%;
   justify-content: center;
-  &-t {
-    border-bottom: 1px solid;
-    border-color: rgb(245, 245, 245);
-  }
   &-box {
     display: flex;
     flex-direction: column;

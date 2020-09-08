@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect, useState } from "react";
-import "./ProfileComment.scss";
+import "./ProfileReply.scss";
 import { SERVER } from "../../../config/config.json";
 import { FaTelegramPlane } from "react-icons/fa";
 import axios from "axios";
 import { UserInfoType } from "../../../util/types/UserStoreType";
 import generateURL from "../../../util/lib/generateURL";
 import { useLocation } from "react-router-dom";
-import ProfileCommentItem from "./ProfileCommentItem";
+import ProfileReplyItem from "./ProfileReplyItem";
 
-interface ProfileCommentProps {
-  id: string;
+interface ProfileReplyProps {
+  idx: number;
   myInfo: UserInfoType;
 }
 
-const ProfileComment = ({ id, myInfo }: ProfileCommentProps) => {
+const ProfileReply = ({ idx, myInfo }: ProfileReplyProps) => {
   const { search } = useLocation();
 
   const [comments, setComments] = useState<any>([]);
@@ -49,12 +49,12 @@ const ProfileComment = ({ id, myInfo }: ProfileCommentProps) => {
 
   const getComments = useCallback(() => {
     axios
-      .get(`${SERVER}/showComment?id=${search.replace("?id=", "")}`)
+      .get(`${SERVER}/showReplyComment?idx=${idx}`)
       .then(async (res: any) => {
-        let commentList = res.data.comment;
+        let commentList = res.data.replyComment;
 
         const promise: Promise<any>[] = [];
-        res.data.comment.map((data: any, i: number) => {
+        res.data.replyComment.map((data: any, i: number) => {
           promise.push(
             axios.get(`${SERVER}/showUserInfo?id=${data.fk_user_id}`)
           );
@@ -67,36 +67,19 @@ const ProfileComment = ({ id, myInfo }: ProfileCommentProps) => {
         });
         setComments(commentList);
       });
-  }, [search]);
+  }, [idx]);
 
   useEffect(() => {
     getComments();
-  }, [getComments, search]);
+  }, [getComments, idx]);
 
   return (
-    <div className="profile-comment">
-      <div className="profile-comment-box">
-        <div className="profile-comment-create">
-          <input
-            className="profile-comment-create-input"
-            type="text"
-            value={commentInput}
-            placeholder="내용을 입력해주세요."
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setCommentInput(e.target.value)
-            }
-            maxLength={255}
-            onKeyPress={commentEnter}
-          />
-          <FaTelegramPlane
-            onClick={createComment}
-            className="profile-comment-create-submit"
-          />
-        </div>
+    <div className="profile-reply">
+      <div className="profile-reply-box">
         {comments && (
           <>
             {comments.map((comment: any, i: number) => (
-              <ProfileCommentItem comment={comment} myInfo={myInfo} key={i} />
+              <ProfileReplyItem comment={comment} myInfo={myInfo} key={i} />
             ))}
           </>
         )}
@@ -105,4 +88,4 @@ const ProfileComment = ({ id, myInfo }: ProfileCommentProps) => {
   );
 };
 
-export default ProfileComment;
+export default ProfileReply;
