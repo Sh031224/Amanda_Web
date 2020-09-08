@@ -1,10 +1,8 @@
 import { inject, observer } from "mobx-react";
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import Main from "../../components/Main";
 import ShowStore from "../../stores/ShowStore";
 import UserStore from "../../stores/UserStore";
-import { GetUserInfoResponse } from "../../util/types/UserStoreType";
 
 interface MainContainerProps {
   store?: StoreType;
