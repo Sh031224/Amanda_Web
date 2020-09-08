@@ -2,13 +2,20 @@ import axios from "axios";
 import { SERVER } from "../../config/config.json";
 
 class Show {
-  async GetAllInfo() {
+  async GetAllInfo(query?: string) {
     try {
-      const url = `${SERVER}/showAllInfo`;
+      if (query) {
+        const url = `${SERVER}/showUserInfo?name=${query}`;
+        const { data } = await axios.get(url);
 
-      const { data } = await axios.get(url);
+        return data;
+      } else {
+        const url = `${SERVER}/showAllInfo`;
 
-      return data;
+        const { data } = await axios.get(url);
+
+        return data;
+      }
     } catch (error) {
       throw new Error(`${error}`);
     }

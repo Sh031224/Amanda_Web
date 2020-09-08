@@ -16,13 +16,61 @@ class ShowStore {
   }
 
   @action
-  getInfoList = async (): Promise<GetInfoListResponse> => {
+  getInfoList = async (query?: string): Promise<GetInfoListResponse> => {
     try {
-      const response: GetInfoListResponse = await ShowApi.GetAllInfo();
+      if (query) {
+        const response: GetInfoListResponse = await ShowApi.GetAllInfo(query);
 
-      this.infoList = response.data;
+        let tempData: UserInfoType[] = [];
 
-      return response;
+        const promise: Promise<number[]>[] = [];
+        response.data.map((data: UserInfoType, index: number) => {
+          promise.push(this.getUserStar(data.idx!));
+        });
+
+        const result = await Promise.all(promise);
+
+        response.data.map((data: UserInfoType, i: number) => {
+          data.star = result[i][0];
+          data.count = result[i][1];
+          tempData.push(data);
+        });
+
+        tempData.sort((a: UserInfoType, b: UserInfoType) => {
+          console.log(1);
+          return a.star! > b.star! ? -1 : a.star! < b.star! ? 1 : 0;
+        });
+
+        this.infoList = tempData;
+
+        return response;
+      } else {
+        const response: GetInfoListResponse = await ShowApi.GetAllInfo();
+
+        let tempData: UserInfoType[] = [];
+
+        const promise: Promise<number[]>[] = [];
+        response.data.map((data: UserInfoType, index: number) => {
+          promise.push(this.getUserStar(data.idx!));
+        });
+
+        const result = await Promise.all(promise);
+
+        response.data.map((data: UserInfoType, i: number) => {
+          data.star = result[i][0];
+          data.count = result[i][1];
+          tempData.push(data);
+        });
+
+        tempData.sort((a: UserInfoType, b: UserInfoType) => {
+          console.log(1);
+          return a.star! > b.star! ? -1 : a.star! < b.star! ? 1 : 0;
+        });
+
+        this.infoList = tempData;
+
+        return response;
+      }
     } catch (error) {
       return new Promise((resolve, reject: (error: Error) => void) => {
         reject(error);
@@ -30,11 +78,11 @@ class ShowStore {
     }
   };
 
-  getUserStar = async (idx: number): Promise<GetUserStarRespose> => {
+  getUserStar = async (idx: number): Promise<number[]> => {
     try {
       const response: GetUserStarRespose = await ShowApi.GetUserStar(idx);
 
-      return response;
+      return [response.평점, response["참여자 수"]];
     } catch (error) {
       return new Promise((resolve, reject: (error: Error) => void) => {
         reject(error);

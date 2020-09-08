@@ -6,6 +6,8 @@ export interface LoginResponse {
 }
 
 export interface UserInfoType {
+  count?: number;
+  star?: number;
   idx?: number;
   user_id?: string;
   pw?: string;
