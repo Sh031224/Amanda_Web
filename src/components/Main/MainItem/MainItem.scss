@@ -2,7 +2,7 @@
   display: flex;
   width: 23.5rem;
   margin: 20px;
-  margin-top: 70px;
+  margin-top: 50px;
   padding: 20px;
   box-shadow: 3px 3px 10px #0000002d;
   position: relative;
@@ -22,13 +22,19 @@
       font-size: 20px;
       font-weight: 700;
       color: #525252;
-    }
-    &-star {
+      display: flex;
+      align-items: center;
       svg {
+        margin-left: 5px;
+        font-size: 21px;
         color: rgb(235, 235, 0);
+      }
+      span {
+        color: lightgray;
       }
     }
     &-description {
+      color: gray;
       margin-top: 5px;
     }
   }
