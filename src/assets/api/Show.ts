@@ -21,6 +21,17 @@ class Show {
     }
   }
 
+  async GetUserInfo(id: string) {
+    try {
+      const url = `${SERVER}/showUserInfo?id=${id}`;
+      const { data } = await axios.get(url);
+
+      return data;
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+
   async GetUserStar(idx: number) {
     try {
       const url = `${SERVER}/showUserStar?idx=${idx}`;

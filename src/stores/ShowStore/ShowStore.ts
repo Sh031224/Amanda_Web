@@ -16,6 +16,36 @@ class ShowStore {
   }
 
   @action
+  getInfo = async (id: string): Promise<GetInfoListResponse> => {
+    try {
+      const response: GetInfoListResponse = await ShowApi.GetUserInfo(id);
+
+      let tempData: UserInfoType[] = [];
+
+      const promise: Promise<number[]>[] = [];
+      response.data.map((data: UserInfoType, index: number) => {
+        promise.push(this.getUserStar(data.idx!));
+      });
+
+      const result = await Promise.all(promise);
+
+      response.data.map((data: UserInfoType, i: number) => {
+        data.star = result[i][0];
+        data.count = result[i][1];
+        tempData.push(data);
+      });
+
+      this.infoList = tempData;
+
+      return response;
+    } catch (error) {
+      return new Promise((resolve, reject: (error: Error) => void) => {
+        reject(error);
+      });
+    }
+  };
+
+  @action
   getInfoList = async (query?: string): Promise<GetInfoListResponse> => {
     try {
       if (query) {
