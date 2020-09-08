@@ -2,6 +2,7 @@ import { inject, observer } from "mobx-react";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Main from "../../components/Main";
+import ShowStore from "../../stores/ShowStore";
 import UserStore from "../../stores/UserStore";
 import { GetUserInfoResponse } from "../../util/types/UserStoreType";
 
@@ -11,28 +12,19 @@ interface MainContainerProps {
 
 interface StoreType {
   UserStore: UserStore;
+  ShowStore: ShowStore;
 }
 
 const MainContainer = ({ store }: MainContainerProps) => {
-  const history = useHistory();
-
-  const { getMyInfo } = store!.UserStore;
+  const { infoList, getInfoList } = store!.ShowStore;
 
   useEffect(() => {
-    getMyInfo()
-      .then((res: GetUserInfoResponse) => {
-        if (res.data.image === "") {
-          history.push("/start");
-        }
-      })
-      .catch((err) => {
-        history.push("/login");
-      });
-  }, [getMyInfo]);
+    getInfoList();
+  }, [getInfoList]);
 
   return (
     <>
-      <Main />
+      <Main infoList={infoList} />
     </>
   );
 };
