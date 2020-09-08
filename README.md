@@ -2,6 +2,8 @@
 
 🏫 This project Amanda(I don't see anyone).
 
+<!-- asd -->
+
 ## 의미
 
 학교 기숙사에서 아무도 만나지 못한다는 의미로 아만다라는 서비스를 계획하게 되었습니다.<br/>
