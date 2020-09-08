@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import token from "../util/lib/token";
 import StartPage from "../pages/StartPage";
+import ProfilePage from "../pages/ProfilePage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           }}
         />
         <Route path="/login" component={LoginPage} />
+        <Route path="/profile" component={ProfilePage} />
       </Switch>
     </div>
   );
