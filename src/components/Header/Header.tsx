@@ -3,15 +3,24 @@ import { Link, useHistory } from "react-router-dom";
 import generateURL from "../../util/lib/generateURL";
 import { UserInfoType } from "../../util/types/UserStoreType";
 import "./Header.scss";
+// import { IconName } from "react-icons/ai";
+import { RiDoorOpenLine } from "react-icons/ri";
 
 interface HeaderProps {
+  deleteToken: any;
   myInfo: UserInfoType;
   onSubmit: () => void;
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Header = ({ myInfo, search, setSearch, onSubmit }: HeaderProps) => {
+const Header = ({
+  myInfo,
+  search,
+  setSearch,
+  onSubmit,
+  deleteToken,
+}: HeaderProps) => {
   const history = useHistory();
 
   return (
@@ -45,6 +54,15 @@ const Header = ({ myInfo, search, setSearch, onSubmit }: HeaderProps) => {
             )}
           </div>
         </Link>
+        <div
+          className="header-box-logout"
+          onClick={() => {
+            deleteToken();
+          }}
+        >
+          <RiDoorOpenLine />
+          <span>Logout</span>
+        </div>
       </div>
     </div>
   );
