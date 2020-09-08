@@ -1,4 +1,4 @@
-@import "./font.scss";
+@import url("https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css");
 
 * {
   margin: 0;
@@ -17,7 +17,7 @@ img {
 
 html,
 body {
-  font-family: NotoSansKR;
+  font-family: "NanumSquareRound", sans-serif;
   min-height: 100vh;
   margin: 0;
 }
