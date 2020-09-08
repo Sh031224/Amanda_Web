@@ -67,8 +67,19 @@ class ShowStore {
         });
 
         tempData.sort((a: UserInfoType, b: UserInfoType) => {
-          console.log(1);
-          return a.star! > b.star! ? -1 : a.star! < b.star! ? 1 : 0;
+          const aStar = a.star! / 10 / a.count!;
+          const bStar = b.star! / 10 / b.count!;
+          if (isNaN(aStar)) {
+            return 1;
+          } else if (isNaN(bStar)) {
+            return -1;
+          } else {
+            return a.star! / 10 / a.count! > b.star! / 10 / b.count!
+              ? -1
+              : a.star! / 10 / a.count! < b.star! / 10 / b.count!
+              ? 1
+              : 0;
+          }
         });
 
         this.infoList = tempData;
@@ -93,8 +104,19 @@ class ShowStore {
         });
 
         tempData.sort((a: UserInfoType, b: UserInfoType) => {
-          console.log(1);
-          return a.star! > b.star! ? -1 : a.star! < b.star! ? 1 : 0;
+          const aStar = a.star! / 10 / a.count!;
+          const bStar = b.star! / 10 / b.count!;
+          if (isNaN(aStar)) {
+            return 1;
+          } else if (isNaN(bStar)) {
+            return -1;
+          } else {
+            return a.star! / 10 / a.count! > b.star! / 10 / b.count!
+              ? -1
+              : a.star! / 10 / a.count! < b.star! / 10 / b.count!
+              ? 1
+              : 0;
+          }
         });
 
         this.infoList = tempData;
