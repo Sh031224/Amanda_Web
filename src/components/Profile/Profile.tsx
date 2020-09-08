@@ -6,6 +6,10 @@ import { GoPencil } from "react-icons/go";
 import { RiImageAddLine } from "react-icons/ri";
 import { AiTwotoneStar } from "react-icons/ai";
 import ProfileComment from "./ProfileComment";
+import Rate from "rc-rate";
+import axios from "axios";
+import { SERVER } from "../../config/config.json";
+import "../../util/star.scss";
 
 interface ProfileProps {
   info: UserInfoType[];
@@ -20,6 +24,23 @@ const Profile = ({
   setEdit,
   handleImageChange
 }: ProfileProps) => {
+  const onChange = async (value: number) => {
+    const star = value * 10;
+    console.log(star);
+    await axios.post(
+      `${SERVER}/updateStar`,
+      {
+        idx: info[0].idx,
+        star: star
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      }
+    );
+  };
+
   return (
     <div className="profile">
       <div className="profile-box">
@@ -47,6 +68,10 @@ const Profile = ({
                 )}
                 <div className="profile-box-bg-content-name">
                   {info[0].name}
+                  <div className="profile-box-bg-content-star">
+                    <AiTwotoneStar />
+                    <span>{info[0].star! / 10 / info[0].count!}</span>
+                  </div>
                 </div>
                 <div className="profile-box-bg-content-description">
                   {info[0].description}
@@ -54,13 +79,13 @@ const Profile = ({
                     <GoPencil onClick={() => setEdit(true)} />
                   )}
                 </div>
-                <div className="profile-box-bg-content-star">
-                  <AiTwotoneStar />
-                  <span>{info[0].star! / 10}</span>
-                  <span className="profile-box-bg-content-star-count">
-                    참여자 수 :{info[0].count}
-                  </span>
-                </div>
+                <Rate
+                  defaultValue={0}
+                  onChange={onChange}
+                  style={{ fontSize: 40 }}
+                  allowHalf
+                  allowClear={false}
+                />
                 <ProfileComment myInfo={myInfo} id={info[0].user_id!} />
               </>
             )}
