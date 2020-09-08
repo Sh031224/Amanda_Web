@@ -1,0 +1,85 @@
+/* your css code */
+.Main {
+  &-search {
+    border: 1px solid black;
+    // padding-top: 1rem;
+    height: 107px;
+    color: #707070;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    &-logo {
+      position: absolute;
+      left: 450px;
+      font-size: 53px;
+      font-weight: bolder;
+      color: #af8bec;
+    }
+    &-inputbox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      &-input {
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.158);
+        width: 442px;
+        height: 40px;
+        border-radius: 8px;
+        border: 1px solid #707070;
+      }
+      &-box {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &-icon {
+          width: 25px;
+          height: 25px;
+        }
+        &-span {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+  &-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    &-box {
+      display: flex;
+      align-items: center;
+      width: 865px;
+      height: 268px;
+      border: 1px solid black;
+      border-radius: 5px;
+      box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.158);
+      &-left {
+        &-img {
+          border: 1px solid black;
+          border-radius: 50%;
+          margin-left: 50px;
+          width: 174px;
+          height: 174px;
+        }
+      }
+      &-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        margin-left: 40px;
+        position: relative;
+        padding: 1rem;
+        &-name {
+          margin-bottom: 40px;
+          font-size: 20px;
+          font-weight: bold;
+        }
+        &-line {
+        }
+      }
+    }
+  }
+}
