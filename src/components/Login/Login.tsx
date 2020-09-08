@@ -4,9 +4,23 @@ import logo from "../../assets/images/logo.svg";
 import bubble from "../../assets/images/bubble.png";
 import loginText from "../../assets/images/login-text.png";
 
-interface LoginProps {}
+interface LoginProps {
+  id: string;
+  setId: React.Dispatch<React.SetStateAction<string>>;
+  pw: string;
+  setPw: React.Dispatch<React.SetStateAction<string>>;
+  setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
+  tryLoginCallback: () => Promise<void>;
+}
 
-const Login = ({}: LoginProps) => {
+const Login = ({
+  id,
+  setId,
+  pw,
+  setPw,
+  setIsRegister,
+  tryLoginCallback
+}: LoginProps) => {
   return (
     <div className="login">
       <div className="login-box">
@@ -27,7 +41,44 @@ const Login = ({}: LoginProps) => {
           </div>
           <img className="login-box-left-bubble" src={bubble} alt="bubble" />
         </div>
-        <div className="login-box-right"></div>
+        <div className="login-box-right">
+          <div className="login-box-right-content">
+            <div className="login-box-right-content-title">{"시작하기"}</div>
+            <div className="login-box-right-content-form">
+              <span>{"ID"}</span>
+              <input
+                type="text"
+                placeholder="Enter your id"
+                value={id}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setId(e.target.value)
+                }
+              />
+              <div className="line" />
+            </div>
+            <div className="login-box-right-content-form">
+              <span>{"Password"}</span>
+              <input
+                value={pw}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setPw(e.target.value)
+                }
+                type="password"
+                placeholder="Enter your password"
+              />
+              <div className="line" />
+            </div>
+            <div
+              className="login-box-right-content-submit"
+              onClick={() => tryLoginCallback()}
+            >
+              로그인
+            </div>
+            <div className="login-box-right-content-register">
+              <span>{"계정이 없으신가요?"}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
