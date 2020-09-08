@@ -5,6 +5,7 @@ import "./Profile.scss";
 import { GoPencil } from "react-icons/go";
 import { RiImageAddLine } from "react-icons/ri";
 import { AiTwotoneStar } from "react-icons/ai";
+import ProfileComment from "./ProfileComment";
 
 interface ProfileProps {
   info: UserInfoType[];
@@ -53,7 +54,11 @@ const Profile = ({
                 <div className="profile-box-bg-content-star">
                   <AiTwotoneStar />
                   <span>{info[0].star! / 10}</span>
+                  <span className="profile-box-bg-content-star-count">
+                    참여자 수 :{info[0].count}
+                  </span>
                 </div>
+                <ProfileComment myInfo={myInfo} id={info[0].user_id!} />
               </>
             )}
           </div>
