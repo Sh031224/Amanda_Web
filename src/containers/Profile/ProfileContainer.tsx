@@ -76,6 +76,8 @@ const ProfileContainer = ({ store }: ProfileContainerProps) => {
   return (
     <>
       <Profile
+        search={search}
+        getInfo={getInfo}
         info={infoList}
         myInfo={myInfo}
         setEdit={setEdit}

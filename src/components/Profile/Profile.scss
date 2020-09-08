@@ -50,14 +50,13 @@
           }
         }
         &-star {
-          margin-top: 20px;
           display: flex;
           align-items: center;
-          font-size: 40px;
+          font-size: 30px;
           color: gray;
           svg {
             margin-left: 5px;
-            font-size: 41px;
+            font-size: 31px;
             color: rgb(235, 235, 0);
           }
           span {
@@ -85,6 +84,13 @@
           font-weight: 800;
           font-size: 38px;
           color: black;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          span {
+            display: flex;
+            justify-content: center;
+          }
         }
         &-description {
           max-width: 700px;
