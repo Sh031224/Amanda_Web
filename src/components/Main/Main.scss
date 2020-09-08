@@ -1,88 +1,10 @@
-/* your css code */
-.Main {
-  &-search {
-    // border: 0.3px solid black;
-    // color: #707070;
-    // padding-top: 1rem;
-    height: 70px;
-
+.main {
+  display: flex;
+  justify-content: center;
+  &-box {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.192);
-    &-logo {
-      position: absolute;
-      left: 450px;
-      font-size: 35px;
-      font-weight: bolder;
-      color: #af8bec;
-    }
-    &-inputbox {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      &-input {
-        width: 350px;
-        height: 35px;
-        border-radius: 8px;
-        border: 1px solid #707070;
-      }
-      &-box {
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        &-span {
-          color: black;
-          font-size: 20px;
-        }
-      }
-    }
-  }
-  &-profile {
-    display: flex;
-    align-items: center;
-    // padding-top: 15px;
-    margin-left: 50px;
-    margin-top: 50px;
-    display: flex;
-    // justify-content: flex-start;
-    &-box {
-      width: 500px;
-      height: 510px;
-      border-radius: 8px;
-      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.192);
-      &-top {
-        &-img {
-          border-radius: 50%;
-          border: 1px solid black;
-          margin-top: 40px;
-          margin-left: 30px;
-          width: 200px;
-          height: 200px;
-        }
-      }
-      &-bottom {
-        display: flex;
-        // flex-direction: column;
-        justify-content: space-around;
-        margin-left: 30px;
-        position: relative;
-        padding: 1rem;
-        color: #707070;
-        &-name {
-          margin-top: 10px;
-          font-size: 45px;
-          font-weight: bold;
-        }
-        &-line {
-          margin-top: 20px;
-          padding-right: 30px;
-        }
-      }
-    }
+    width: 100%;
+    max-width: 1280px;
+    flex-wrap: wrap;
   }
 }

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { inject, observer } from "mobx-react";
 import Header from "../../components/Header";
 import UserStore from "../../stores/UserStore";
+import { useHistory } from "react-router-dom";
+import { GetUserInfoResponse } from "../../util/types/UserStoreType";
 
 interface HeaderContainerProps {
   store?: StoreType;
@@ -12,7 +14,21 @@ interface StoreType {
 }
 
 const HeaderContainer = ({ store }: HeaderContainerProps) => {
-  const { myInfo } = store!.UserStore;
+  const history = useHistory();
+
+  const { myInfo, getMyInfo } = store!.UserStore;
+
+  useEffect(() => {
+    getMyInfo()
+      .then((res: GetUserInfoResponse) => {
+        if (res.data.image === "") {
+          history.push("/start");
+        }
+      })
+      .catch((err) => {
+        history.push("/login");
+      });
+  }, [getMyInfo]);
 
   return (
     <>

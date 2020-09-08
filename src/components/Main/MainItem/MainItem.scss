@@ -1,0 +1,20 @@
+.main-item {
+  display: flex;
+  width: 17.5rem;
+  margin: 20px;
+  margin-top: 70px;
+  padding: 20px;
+  padding-top: 150px;
+  box-shadow: 3px 3px 10px #0000002d;
+  position: relative;
+  border-radius: 10px;
+  img {
+    top: -40px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 50%;
+    width: 110px;
+    position: absolute;
+    border: 2px solid lightgray;
+  }
+}
