@@ -28,7 +28,10 @@ const Profile = ({
           <div className="profile-box-bg-content">
             {info[0] && info[0].image && (
               <>
-                <img src={generateURL(info[0].image)} />
+                <img
+                  src={generateURL(info[0].image)}
+                  className="profile-box-bg-content-img"
+                />
                 {info[0].idx === myInfo.idx && (
                   <div className="profile-box-bg-content-upload">
                     <label htmlFor="file">
