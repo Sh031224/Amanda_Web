@@ -50,14 +50,24 @@
           }
         }
         &-star {
+          margin-top: 20px;
           display: flex;
           align-items: center;
-          font-size: 20px;
+          font-size: 40px;
           color: gray;
           svg {
             margin-left: 5px;
-            font-size: 21px;
+            font-size: 41px;
             color: rgb(235, 235, 0);
+          }
+          span {
+            padding-top: 5px;
+            display: flex;
+            align-items: center;
+          }
+          &-count {
+            margin-left: 20px;
+            font-size: 27px;
           }
         }
         img {
@@ -77,6 +87,7 @@
           color: black;
         }
         &-description {
+          max-width: 700px;
           color: gray;
           margin-top: 5px;
           font-size: 23px;

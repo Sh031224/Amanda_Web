@@ -1,5 +1,5 @@
 import { inject, observer } from "mobx-react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import Profile from "../../components/Profile";
@@ -43,23 +43,27 @@ const ProfileContainer = ({ store }: ProfileContainerProps) => {
     }
   }, [file]);
 
+  const editCallback = useCallback(() => {
+    const description = prompt(
+      "수정할 내용을 입력하세요.",
+      infoList[0].description
+    );
+    if (!description) {
+      toast.warning("취소되었습니다.");
+    } else {
+      updateMyInfo(description).then(() => {
+        toast.success("수정되었습니다.");
+        getInfo(search.replace("?id=", ""));
+      });
+    }
+    setEdit(false);
+  }, [infoList]);
+
   useEffect(() => {
     if (edit) {
-      const description = prompt(
-        "수정할 내용을 입력하세요.",
-        myInfo.description
-      );
-      if (!description) {
-        toast.warning("취소되었습니다.");
-      } else {
-        updateMyInfo(description).then(() => {
-          toast.success("수정되었습니다.");
-          getInfo(search.replace("?id=", ""));
-        });
-      }
-      setEdit(false);
+      editCallback();
     }
-  }, [edit, myInfo]);
+  }, [edit]);
 
   useEffect(() => {
     if (search.replace("?id=", "") !== "") {
