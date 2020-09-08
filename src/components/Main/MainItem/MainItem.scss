@@ -10,6 +10,7 @@
   img {
     border-radius: 50%;
     width: 110px;
+    height: 110px;
     border: 1px solid lightgray;
   }
   &-content {
@@ -34,6 +35,9 @@
       }
     }
     &-description {
+      width: 100%;
+      word-wrap: break-word;
+      word-break: break-all;
       color: gray;
       margin-top: 5px;
     }

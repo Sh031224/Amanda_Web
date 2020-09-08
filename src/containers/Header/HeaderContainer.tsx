@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { inject, observer } from "mobx-react";
 import Header from "../../components/Header";
 import UserStore from "../../stores/UserStore";
@@ -18,6 +18,16 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
 
   const { myInfo, getMyInfo } = store!.UserStore;
 
+  const [search, setSearch] = useState<string>("");
+
+  const onSubmit = useCallback(() => {
+    if (search !== "") {
+      history.push(`/?query=${search}`);
+    } else {
+      history.push("/");
+    }
+  }, [search]);
+
   useEffect(() => {
     getMyInfo()
       .then((res: GetUserInfoResponse) => {
@@ -32,7 +42,12 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
 
   return (
     <>
-      <Header myInfo={myInfo} />
+      <Header
+        myInfo={myInfo}
+        search={search}
+        setSearch={setSearch}
+        onSubmit={onSubmit}
+      />
     </>
   );
 };
