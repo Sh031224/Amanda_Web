@@ -5,6 +5,7 @@ import MainPage from "../pages/MainPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import token from "../util/lib/token";
+import StartPage from "../pages/StartPage";
 
 function App() {
   return (
@@ -16,6 +17,13 @@ function App() {
           path="/"
           render={() => {
             return token() ? <MainPage /> : <Redirect to="/login" />;
+          }}
+        />
+        <Route
+          exact
+          path="/start"
+          render={() => {
+            return token() ? <StartPage /> : <Redirect to="/login" />;
           }}
         />
         <Route path="/login" component={LoginPage} />
