@@ -1,0 +1,111 @@
+.start {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+  &-title {
+    font-weight: 700;
+    font-size: 40px;
+    b {
+      font-weight: 800;
+      color: #635380;
+    }
+  }
+  &-subtitle {
+    color: #9f9f9f;
+    font-size: 35px;
+    margin-top: 10px;
+  }
+  &-profile {
+    margin-top: 50px;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    border: 1px solid black;
+    position: relative;
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+    &-upload {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      label {
+        display: inline-block;
+        color: #999;
+        font-size: inherit;
+        line-height: normal;
+        vertical-align: middle;
+        cursor: pointer;
+        border-radius: 50%;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid rgb(150, 150, 150);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+      }
+      input[type="file"] {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    }
+  }
+  &-description {
+    margin-top: 80px;
+    position: relative;
+    width: 500px;
+    .line {
+      height: 2px;
+      width: 0px;
+      position: absolute;
+      background-color: rgb(75, 75, 75);
+      display: inline-block;
+      transition: 0.3s width ease-in-out;
+      bottom: 0px;
+      left: 0;
+    }
+    input {
+      border: none;
+      width: 500px;
+      border-bottom: 2px solid lightgray;
+      outline: none;
+      padding: 13px 0;
+      font-size: 17px;
+      color: rgb(128, 128, 128);
+      &::placeholder {
+        color: rgb(190, 190, 190);
+        font-weight: 400;
+      }
+      &:focus + .line {
+        width: 100% !important;
+      }
+    }
+  }
+  &-btn {
+    margin-top: 100px;
+    width: 500px;
+    background-color: #8a5bf5;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      margin-left: 10px;
+      font-size: 20px;
+    }
+  }
+}
