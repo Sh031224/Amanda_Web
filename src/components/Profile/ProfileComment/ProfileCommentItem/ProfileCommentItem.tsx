@@ -18,9 +18,11 @@ const ProfileCommentItem = ({ comment, myInfo }: ProfileCommentItemProps) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editInput, setEditInput] = useState<string>(comment.comment);
 
+  const [create, setCreate] = useState<boolean>(false);
+
   const editComment = async (idx: number, content: string) => {
     await axios.post(
-      `${SERVER}/updateComment`,
+      `${SERVER}/updateReplyComment`,
       { idx: idx, commnet: content },
       {
         headers: {
@@ -89,7 +91,7 @@ const ProfileCommentItem = ({ comment, myInfo }: ProfileCommentItemProps) => {
             <div className="profile-comment-box-util">
               <span
                 className="profile-comment-box-util-reply"
-                // onClick={() => setReply(true)}
+                onClick={() => setCreate(true)}
               >
                 답글
               </span>
@@ -105,7 +107,12 @@ const ProfileCommentItem = ({ comment, myInfo }: ProfileCommentItemProps) => {
           </div>
         </div>
       )}
-      <ProfileReply idx={comment.idx} myInfo={myInfo} />
+      <ProfileReply
+        idx={comment.idx}
+        myInfo={myInfo}
+        create={create}
+        setCreate={setCreate}
+      />
       {/* <div className="profile-reply-create">
           <input
             className="profile-reply-create-input"
