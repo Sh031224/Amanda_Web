@@ -84,12 +84,6 @@ const ProfileReplyItem = ({ comment, myInfo }: ProfileReplyItemProps) => {
             </div>
             <span className="profile-reply-box-content">{comment.comment}</span>
             <div className="profile-reply-box-util">
-              <span
-                className="profile-reply-box-util-reply"
-                // onClick={() => setReply(true)}
-              >
-                답글
-              </span>
               {comment.fk_user_id === myInfo.user_id && (
                 <span
                   className="profile-reply-box-util-modify"

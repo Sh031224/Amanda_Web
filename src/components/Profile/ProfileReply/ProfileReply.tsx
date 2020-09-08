@@ -7,24 +7,32 @@ import { UserInfoType } from "../../../util/types/UserStoreType";
 import generateURL from "../../../util/lib/generateURL";
 import { useLocation } from "react-router-dom";
 import ProfileReplyItem from "./ProfileReplyItem";
+import { MdCancel } from "react-icons/md";
 
 interface ProfileReplyProps {
   idx: number;
   myInfo: UserInfoType;
+  create: boolean;
+  setCreate: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ProfileReply = ({ idx, myInfo }: ProfileReplyProps) => {
+const ProfileReply = ({
+  idx,
+  myInfo,
+  create,
+  setCreate
+}: ProfileReplyProps) => {
   const { search } = useLocation();
 
   const [comments, setComments] = useState<any>([]);
   const [commentInput, setCommentInput] = useState<string>("");
 
-  const createComment = useCallback(async () => {
+  const createReply = useCallback(async () => {
     if (commentInput !== "") {
       await axios.post(
-        `${SERVER}/createComment`,
+        `${SERVER}/createReplyComment`,
         {
-          id: Number(search.replace("?id=", "")),
+          idx,
           comment: commentInput
         },
         {
@@ -36,15 +44,20 @@ const ProfileReply = ({ idx, myInfo }: ProfileReplyProps) => {
       setCommentInput("");
       getComments();
     }
-  }, [commentInput, search]);
+  }, [commentInput, idx]);
+
+  const cancelCreate = () => {
+    setCreate(false);
+    setCommentInput("");
+  };
 
   const commentEnter = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.keyCode === 13) {
-        createComment();
+        createReply();
       }
     },
-    [commentInput, createComment]
+    [commentInput, createReply]
   );
 
   const getComments = useCallback(() => {
@@ -76,6 +89,37 @@ const ProfileReply = ({ idx, myInfo }: ProfileReplyProps) => {
   return (
     <div className="profile-reply">
       <div className="profile-reply-box">
+        {create && (
+          <div className="profile-reply-create">
+            <input
+              className="profile-reply-create-input"
+              type="text"
+              value={commentInput}
+              placeholder="내용을 입력해주세요."
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setCommentInput(e.target.value)
+              }
+              autoFocus
+              maxLength={255}
+              onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === "Escape") {
+                  setCreate(false);
+                } else if (e.key === "Enter") {
+                  await createReply();
+                  cancelCreate();
+                }
+              }}
+            />
+            <MdCancel
+              onClick={() => cancelCreate()}
+              className="profile-comment-create-cancel"
+            />
+            <FaTelegramPlane
+              // onClick={createComment}
+              className="profile-comment-create-submit"
+            />
+          </div>
+        )}
         {comments && (
           <>
             {comments.map((comment: any, i: number) => (
