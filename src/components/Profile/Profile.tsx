@@ -10,19 +10,24 @@ import Rate from "rc-rate";
 import axios from "axios";
 import { SERVER } from "../../config/config.json";
 import "../../util/star.scss";
+import { GetInfoListResponse } from "../../util/types/ShowStoreType";
 
 interface ProfileProps {
   info: UserInfoType[];
   myInfo: UserInfoType;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  getInfo: (id: string) => Promise<GetInfoListResponse>;
+  search: string;
 }
 
 const Profile = ({
   info,
   myInfo,
   setEdit,
-  handleImageChange
+  handleImageChange,
+  getInfo,
+  search
 }: ProfileProps) => {
   const onChange = async (value: number) => {
     const star = value * 10;
@@ -39,6 +44,7 @@ const Profile = ({
         }
       }
     );
+    getInfo(search.replace("?id=", ""));
   };
 
   return (
@@ -67,7 +73,7 @@ const Profile = ({
                   </div>
                 )}
                 <div className="profile-box-bg-content-name">
-                  {info[0].name}
+                  <span>{info[0].name}</span>
                   <div className="profile-box-bg-content-star">
                     <AiTwotoneStar />
                     <span>{info[0].star! / 10 / info[0].count!}</span>
