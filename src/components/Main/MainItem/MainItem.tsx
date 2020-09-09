@@ -18,7 +18,12 @@ const MainItem = ({ data }: MainItemProps) => {
         <div className="main-item-content-name">
           {data.name}
           <AiTwotoneStar />
-          <span>{data.count! !== 0 && data.star! / 10 / data.count!}</span>
+          <span>
+            {data.count! !== 0 &&
+              parseFloat(
+                ((data.star! * 10) / 100 / data.count!).toString()
+              ).toFixed(1)}
+          </span>
         </div>
         <Link to={`/profile?id=${data.user_id}`}>
           <div className="main-item-content-description">
