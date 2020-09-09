@@ -12,12 +12,14 @@ interface ProfileReplyItemProps {
   comment: any;
   myInfo: UserInfoType;
   getComments: () => void;
+  fk_object_id: string;
 }
 
 const ProfileReplyItem = ({
   comment,
   myInfo,
-  getComments
+  getComments,
+  fk_object_id
 }: ProfileReplyItemProps) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editInput, setEditInput] = useState<string>(comment.comment);
@@ -82,11 +84,8 @@ const ProfileReplyItem = ({
           <div className="profile-reply-box">
             <div className="profile-reply-box-title">
               {comment.user_name}
-              {comment.fk_user_id === comment.fk_object_id && (
+              {comment.fk_user_id === fk_object_id && (
                 <IoMdCheckmarkCircleOutline className="profile-reply-box-title-admin" />
-              )}
-              {comment.is_private && (
-                <IoIosLock className="profile-reply-box-title-lock" />
               )}
               <span className="profile-reply-box-time">
                 {TimeCounting(comment.created_at, { lang: "ko" })}

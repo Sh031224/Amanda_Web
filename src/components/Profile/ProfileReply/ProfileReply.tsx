@@ -14,13 +14,15 @@ interface ProfileReplyProps {
   myInfo: UserInfoType;
   create: boolean;
   setCreate: React.Dispatch<React.SetStateAction<boolean>>;
+  fk_object_id: string;
 }
 
 const ProfileReply = ({
   idx,
   myInfo,
   create,
-  setCreate
+  setCreate,
+  fk_object_id
 }: ProfileReplyProps) => {
   const { search } = useLocation();
 
@@ -123,6 +125,7 @@ const ProfileReply = ({
           <>
             {comments.map((comment: any, i: number) => (
               <ProfileReplyItem
+                fk_object_id={fk_object_id}
                 getComments={getComments}
                 comment={comment}
                 myInfo={myInfo}
