@@ -5,6 +5,11 @@ import { toast } from "react-toastify";
 import Profile from "../../components/Profile";
 import ShowStore from "../../stores/ShowStore";
 import UserStore from "../../stores/UserStore";
+import axios from "axios";
+import { SERVER } from "../../config/config.json";
+import { info } from "node-sass";
+import { UserInfoType } from "../../util/types/UserStoreType";
+import { GetInfoListResponse } from "../../util/types/ShowStoreType";
 
 interface ProfileContainerProps {
   store?: StoreType;
@@ -19,11 +24,14 @@ const ProfileContainer = ({ store }: ProfileContainerProps) => {
   const { search } = useLocation();
   const history = useHistory();
 
-  const { infoList, getInfo } = store!.ShowStore;
+  const { getInfo, getUserStar } = store!.ShowStore;
   const { myInfo, updateMyInfo, uploadProfile } = store!.UserStore;
 
   const [file, setFile] = useState<File>();
   const [edit, setEdit] = useState<boolean>(false);
+  const [myStar, setMyStar] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [infoList, setInfoList] = useState<UserInfoType[]>([]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -43,6 +51,28 @@ const ProfileContainer = ({ store }: ProfileContainerProps) => {
     }
   }, [file]);
 
+  const getInfoCallback = useCallback(async () => {
+    await getInfo(search.replace("?id=", "")).then(
+      async (res: GetInfoListResponse) => {
+        let tempData: UserInfoType[] = [];
+
+        const promise: Promise<number[]>[] = [];
+        res.data.map((data: UserInfoType, index: number) => {
+          promise.push(getUserStar(data.idx!));
+        });
+
+        const result = await Promise.all(promise);
+
+        res.data.map((data: UserInfoType, i: number) => {
+          data.star = result[i][0];
+          data.count = result[i][1];
+          tempData.push(data);
+        });
+        setInfoList(tempData);
+      }
+    );
+  }, [getInfo, search]);
+
   const editCallback = useCallback(() => {
     const description = prompt(
       "수정할 내용을 입력하세요.",
@@ -53,7 +83,7 @@ const ProfileContainer = ({ store }: ProfileContainerProps) => {
     } else {
       updateMyInfo(description).then(() => {
         toast.success("수정되었습니다.");
-        getInfo(search.replace("?id=", ""));
+        getInfoCallback();
       });
     }
     setEdit(false);
@@ -65,17 +95,45 @@ const ProfileContainer = ({ store }: ProfileContainerProps) => {
     }
   }, [edit]);
 
+  const getMyStar = useCallback(async () => {
+    await axios
+      .get(`${SERVER}/showMyStar`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      })
+      .then((res: any) => {
+        if (res.data.data.length && infoList[0]) {
+          res.data.data.map((data: any) => {
+            if (data.fk_object_idx === infoList[0].idx) {
+              setMyStar(data.star / 10);
+            }
+          });
+        }
+      });
+    setLoading(false);
+  }, [infoList, search]);
+
   useEffect(() => {
     if (search.replace("?id=", "") !== "") {
-      getInfo(search.replace("?id=", ""));
+      getInfoCallback();
     } else {
       history.push("/");
     }
-  }, [getInfo, search]);
+  }, [search]);
+
+  useEffect(() => {
+    if (infoList[0]) {
+      getMyStar();
+    }
+  }, [infoList, search]);
 
   return (
     <>
       <Profile
+        getInfoCallback={getInfoCallback}
+        loading={loading}
+        myStar={myStar}
         search={search}
         getInfo={getInfo}
         info={infoList}

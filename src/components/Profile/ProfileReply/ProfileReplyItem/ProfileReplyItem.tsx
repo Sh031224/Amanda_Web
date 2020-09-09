@@ -11,22 +11,29 @@ import { SERVER } from "../../../../config/config.json";
 interface ProfileReplyItemProps {
   comment: any;
   myInfo: UserInfoType;
+  getComments: () => void;
 }
 
-const ProfileReplyItem = ({ comment, myInfo }: ProfileReplyItemProps) => {
+const ProfileReplyItem = ({
+  comment,
+  myInfo,
+  getComments
+}: ProfileReplyItemProps) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editInput, setEditInput] = useState<string>(comment.comment);
 
   const editComment = async (idx: number, content: string) => {
+    console.log(comment.idx);
     await axios.post(
-      `${SERVER}/updateComment`,
-      { idx: idx, commnet: content },
+      `${SERVER}/updateReplyComment`,
+      { idx: idx, comment: content },
       {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
         }
       }
     );
+    getComments();
   };
 
   const cancelEdit = useCallback(() => {
@@ -62,7 +69,10 @@ const ProfileReplyItem = ({ comment, myInfo }: ProfileReplyItemProps) => {
             className="profile-reply-create-cancel"
           />
           <FaTelegramPlane
-            // onClick={createComment}
+            onClick={async () => {
+              await editComment(comment.idx, editInput);
+              cancelEdit();
+            }}
             className="profile-reply-create-submit"
           />
         </div>

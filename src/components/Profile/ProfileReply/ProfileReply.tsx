@@ -51,15 +51,6 @@ const ProfileReply = ({
     setCommentInput("");
   };
 
-  const commentEnter = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.keyCode === 13) {
-        createReply();
-      }
-    },
-    [commentInput, createReply]
-  );
-
   const getComments = useCallback(() => {
     axios
       .get(`${SERVER}/showReplyComment?idx=${idx}`)
@@ -77,6 +68,14 @@ const ProfileReply = ({
         result.map((data: any, i: number) => {
           commentList[i].user_image = generateURL(data.data.data[0].image);
           commentList[i].user_name = data.data.data[0].name;
+        });
+
+        commentList.sort((a: any, b: any) => {
+          return a.created_at < b.created_at
+            ? -1
+            : a.created_at > b.created_at
+            ? 1
+            : 0;
         });
         setComments(commentList);
       });
@@ -123,7 +122,12 @@ const ProfileReply = ({
         {comments && (
           <>
             {comments.map((comment: any, i: number) => (
-              <ProfileReplyItem comment={comment} myInfo={myInfo} key={i} />
+              <ProfileReplyItem
+                getComments={getComments}
+                comment={comment}
+                myInfo={myInfo}
+                key={i}
+              />
             ))}
           </>
         )}

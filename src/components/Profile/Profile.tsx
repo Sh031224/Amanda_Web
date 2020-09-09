@@ -19,6 +19,9 @@ interface ProfileProps {
   handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   getInfo: (id: string) => Promise<GetInfoListResponse>;
   search: string;
+  myStar: number;
+  loading: boolean;
+  getInfoCallback: () => Promise<void>;
 }
 
 const Profile = ({
@@ -27,11 +30,13 @@ const Profile = ({
   setEdit,
   handleImageChange,
   getInfo,
-  search
+  search,
+  myStar,
+  loading,
+  getInfoCallback
 }: ProfileProps) => {
   const onChange = async (value: number) => {
     const star = value * 10;
-    console.log(star);
     await axios.post(
       `${SERVER}/updateStar`,
       {
@@ -44,8 +49,10 @@ const Profile = ({
         }
       }
     );
-    getInfo(search.replace("?id=", ""));
+    getInfoCallback();
   };
+
+  // console.log(myStar);
 
   return (
     <div className="profile">
@@ -76,22 +83,29 @@ const Profile = ({
                   <span>{info[0].name}</span>
                   <div className="profile-box-bg-content-star">
                     <AiTwotoneStar />
-                    <span>{info[0].star! / 10 / info[0].count!}</span>
+                    <span>
+                      {info[0].count! !== 0 &&
+                        info[0].star! / 10 / info[0].count!}
+                    </span>
                   </div>
                 </div>
                 <div className="profile-box-bg-content-description">
-                  {info[0].description}
+                  <span>{info[0].description}</span>
                   {info[0].idx === myInfo.idx && (
                     <GoPencil onClick={() => setEdit(true)} />
                   )}
                 </div>
-                <Rate
-                  defaultValue={0}
-                  onChange={onChange}
-                  style={{ fontSize: 40 }}
-                  allowHalf
-                  allowClear={false}
-                />
+                {!loading && (
+                  <>
+                    <Rate
+                      defaultValue={myStar}
+                      onChange={onChange}
+                      style={{ fontSize: 40 }}
+                      allowHalf
+                      allowClear={false}
+                    />
+                  </>
+                )}
                 <ProfileComment myInfo={myInfo} id={info[0].user_id!} />
               </>
             )}
@@ -102,4 +116,4 @@ const Profile = ({
   );
 };
 
-export default Profile;
+export default React.memo(Profile);
