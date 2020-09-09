@@ -46,14 +46,17 @@
         height: 40px;
         margin-right: 10px;
       }
+      a {
+        color: gray;
+      }
     }
     &-logout {
+      cursor: pointer;
+      margin-left: 10px;
+      color: gray;
       font-size: 20px;
       display: flex;
       align-items: center;
-      &:hover {
-        color: rgb(155, 155, 155);
-      }
     }
   }
 }

@@ -114,6 +114,7 @@ const ProfileCommentItem = ({
         </div>
       )}
       <ProfileReply
+        fk_object_id={comment.fk_object_id}
         idx={comment.idx}
         myInfo={myInfo}
         create={create}

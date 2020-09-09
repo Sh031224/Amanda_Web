@@ -3,8 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import generateURL from "../../util/lib/generateURL";
 import { UserInfoType } from "../../util/types/UserStoreType";
 import "./Header.scss";
-// import { IconName } from "react-icons/ai";
-import { RiDoorOpenLine } from "react-icons/ri";
+import { GrLogout } from "react-icons/gr";
 
 interface HeaderProps {
   deleteToken: any;
@@ -19,7 +18,7 @@ const Header = ({
   search,
   setSearch,
   onSubmit,
-  deleteToken,
+  deleteToken
 }: HeaderProps) => {
   const history = useHistory();
 
@@ -44,24 +43,25 @@ const Header = ({
             }}
           />
         </div>
-        <Link to={`/profile?id=${myInfo.user_id}`}>
-          <div className="header-box-profile">
-            {myInfo && myInfo.image && (
-              <>
+        <div className="header-box-profile">
+          {myInfo && myInfo.image && (
+            <>
+              <Link to={`/profile?id=${myInfo.user_id}`}>
                 <img src={generateURL(myInfo.image)} />
+              </Link>
+              <Link to={`/profile?id=${myInfo.user_id}`}>
                 <span>{myInfo.name}</span>
-              </>
-            )}
+              </Link>
+            </>
+          )}
+          <div
+            className="header-box-logout"
+            onClick={() => {
+              deleteToken();
+            }}
+          >
+            <GrLogout />
           </div>
-        </Link>
-        <div
-          className="header-box-logout"
-          onClick={() => {
-            deleteToken();
-          }}
-        >
-          <RiDoorOpenLine />
-          <span>Logout</span>
         </div>
       </div>
     </div>
