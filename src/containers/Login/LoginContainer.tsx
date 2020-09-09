@@ -5,12 +5,12 @@ import UserStore from "../../stores/UserStore";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
-interface LoginContainerProps {
-  store?: StoreType;
-}
-
 interface StoreType {
   UserStore: UserStore;
+}
+
+interface LoginContainerProps {
+  store?: StoreType;
 }
 
 const LoginContainer = ({ store }: LoginContainerProps) => {
@@ -34,7 +34,6 @@ const LoginContainer = ({ store }: LoginContainerProps) => {
         toast.error("로그인에 실패하였습니다.");
       });
   }, [id, pw]);
-
   const tryRegisterCallback = useCallback(async () => {
     if (!id || !pw || !name) {
       toast.warning("빈칸을 입력해주세요.");

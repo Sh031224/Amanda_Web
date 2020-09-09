@@ -47,5 +47,13 @@
         margin-right: 10px;
       }
     }
+    &-logout {
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      &:hover {
+        color: rgb(155, 155, 155);
+      }
+    }
   }
 }

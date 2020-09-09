@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
+
 import { inject, observer } from "mobx-react";
 import Header from "../../components/Header";
 import UserStore from "../../stores/UserStore";
 import { useHistory } from "react-router-dom";
+
 import { GetUserInfoResponse } from "../../util/types/UserStoreType";
 
 interface HeaderContainerProps {
@@ -40,6 +42,11 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
       });
   }, [getMyInfo]);
 
+  const deleteToken = (): any => {
+    localStorage.removeItem("token");
+    history.push("/");
+  };
+
   return (
     <>
       <Header
@@ -47,6 +54,7 @@ const HeaderContainer = ({ store }: HeaderContainerProps) => {
         search={search}
         setSearch={setSearch}
         onSubmit={onSubmit}
+        deleteToken={deleteToken}
       />
     </>
   );
