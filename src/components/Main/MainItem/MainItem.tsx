@@ -12,26 +12,32 @@ interface MainItemProps {
 
 const MainItem = ({ data }: MainItemProps) => {
   return (
-    <div className="main-item">
-      <img src={generateURL(data.image!)} />
-      <div className="main-item-content">
-        <div className="main-item-content-name">
-          {data.name}
-          <AiTwotoneStar />
-          <span>
-            {data.count! !== 0 &&
-              parseFloat(
-                ((data.star! * 10) / 100 / data.count!).toString()
-              ).toFixed(1)}
-          </span>
-        </div>
-        <Link to={`/profile?id=${data.user_id}`}>
-          <div className="main-item-content-description">
-            {data.description}
+    <>
+      {data.image && (
+        <div className="main-item">
+          <img src={generateURL(data.image!)} />
+          <div className="main-item-content">
+            <Link to={`/profile?id=${data.user_id}`}>
+              <div className="main-item-content-name">
+                {data.name}
+                <AiTwotoneStar />
+                <span>
+                  {data.count! !== 0 &&
+                    parseFloat(
+                      ((data.star! * 10) / 100 / data.count!).toString()
+                    ).toFixed(1)}
+                </span>
+              </div>
+            </Link>
+            <Link to={`/profile?id=${data.user_id}`}>
+              <div className="main-item-content-description">
+                {data.description}
+              </div>
+            </Link>
           </div>
-        </Link>
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 
