@@ -24,7 +24,7 @@ const ProfileComment = ({ id, myInfo }: ProfileCommentProps) => {
       await axios.post(
         `${SERVER}/createComment`,
         {
-          id: Number(search.replace("?id=", "")),
+          id,
           comment: commentInput
         },
         {
@@ -36,7 +36,7 @@ const ProfileComment = ({ id, myInfo }: ProfileCommentProps) => {
       setCommentInput("");
       getComments();
     }
-  }, [commentInput, search]);
+  }, [commentInput, search, id]);
 
   const commentEnter = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -65,6 +65,14 @@ const ProfileComment = ({ id, myInfo }: ProfileCommentProps) => {
           commentList[i].user_image = generateURL(data.data.data[0].image);
           commentList[i].user_name = data.data.data[0].name;
         });
+
+        commentList.sort((a: any, b: any) => {
+          return a.created_at < b.created_at
+            ? -1
+            : a.created_at > b.created_at
+            ? 1
+            : 0;
+        });
         setComments(commentList);
       });
   }, [search]);
@@ -86,7 +94,7 @@ const ProfileComment = ({ id, myInfo }: ProfileCommentProps) => {
               setCommentInput(e.target.value)
             }
             maxLength={255}
-            onKeyPress={commentEnter}
+            onKeyDown={commentEnter}
           />
           <FaTelegramPlane
             onClick={createComment}
@@ -96,7 +104,12 @@ const ProfileComment = ({ id, myInfo }: ProfileCommentProps) => {
         {comments && (
           <>
             {comments.map((comment: any, i: number) => (
-              <ProfileCommentItem comment={comment} myInfo={myInfo} key={i} />
+              <ProfileCommentItem
+                getComments={getComments}
+                comment={comment}
+                myInfo={myInfo}
+                key={i}
+              />
             ))}
           </>
         )}

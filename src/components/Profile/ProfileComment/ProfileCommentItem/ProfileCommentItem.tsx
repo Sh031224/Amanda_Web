@@ -12,9 +12,14 @@ import ProfileReply from "../../ProfileReply";
 interface ProfileCommentItemProps {
   comment: any;
   myInfo: UserInfoType;
+  getComments: () => void;
 }
 
-const ProfileCommentItem = ({ comment, myInfo }: ProfileCommentItemProps) => {
+const ProfileCommentItem = ({
+  comment,
+  myInfo,
+  getComments
+}: ProfileCommentItemProps) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editInput, setEditInput] = useState<string>(comment.comment);
 
@@ -22,14 +27,15 @@ const ProfileCommentItem = ({ comment, myInfo }: ProfileCommentItemProps) => {
 
   const editComment = async (idx: number, content: string) => {
     await axios.post(
-      `${SERVER}/updateReplyComment`,
-      { idx: idx, commnet: content },
+      `${SERVER}/updateComment`,
+      { idx: idx, comment: content },
       {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
         }
       }
     );
+    getComments();
   };
 
   const cancelEdit = useCallback(() => {
