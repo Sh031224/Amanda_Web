@@ -2,7 +2,6 @@
   display: flex;
   width: 23.5rem;
   margin: 20px;
-  margin-top: 50px;
   padding: 20px;
   box-shadow: 3px 3px 10px #0000002d;
   position: relative;
@@ -35,9 +34,16 @@
       }
     }
     &-description {
-      width: 100%;
-      word-wrap: break-word;
+      line-height: 1.5;
+      text-overflow: ellipsis;
       word-break: break-all;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      word-wrap: break-word;
+      word-break: keep-all;
+      width: 200px;
       color: gray;
       margin-top: 5px;
     }

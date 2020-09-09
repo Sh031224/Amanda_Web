@@ -52,8 +52,6 @@ const Profile = ({
     getInfoCallback();
   };
 
-  // console.log(myStar);
-
   return (
     <div className="profile">
       <div className="profile-box">
@@ -84,8 +82,18 @@ const Profile = ({
                   <div className="profile-box-bg-content-star">
                     <AiTwotoneStar />
                     <span>
-                      {info[0].count! !== 0 &&
-                        info[0].star! / 10 / info[0].count!}
+                      {info[0].count! !== 0 && (
+                        <>
+                          {parseFloat(
+                            (
+                              (info[0].star! * 10) /
+                              100 /
+                              info[0].count!
+                            ).toString()
+                          ).toFixed(1)}
+                          <span>({info[0].count!})</span>
+                        </>
+                      )}
                     </span>
                   </div>
                 </div>
