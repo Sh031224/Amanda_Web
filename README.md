@@ -2,7 +2,6 @@
 
 🏫 This project Amanda(I don't see anyone).
 
-<!-- asd -->
 
 ## 의미
 
